@@ -7,17 +7,16 @@ import android.support.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
+
+import baali.nano.utils.HttpUtils;
 
 /**
  * Created by Balaji on 05/01/16.
  */
 public class FetchMovieData extends AsyncTask<String, Void, String>
 {
+    private final HttpUtils httpUtils = new HttpUtils();
     private String TAG = FetchMovieData.class.getSimpleName();
 
     @Override
@@ -38,19 +37,19 @@ public class FetchMovieData extends AsyncTask<String, Void, String>
     {
         String jsonString = null;
         HttpURLConnection connection;
-        connection = getConnection(location);
+        connection = httpUtils.getConnection(location);
 
-        InputStream is = getInputStream(connection);
+        InputStream is = httpUtils.getInputStream(connection);
 
         if (is != null) {
-            reader = getReader(is);
+            reader = httpUtils.getReader(is);
             String line;
-            jsonString = getResponseData(reader);
+            jsonString = readData(reader);
 
         }
 
-        closeConnection(connection);
-        closeReader(reader);
+        httpUtils.closeConnection(connection);
+        httpUtils.closeReader(reader);
         return jsonString;
     }
 
@@ -58,50 +57,36 @@ public class FetchMovieData extends AsyncTask<String, Void, String>
     @NonNull
     private HttpURLConnection getConnection(String location)
     {
-        HttpURLConnection connection = null;
-        URL url = null;
-        try {
-            url = new URL(location);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-        }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        catch (ProtocolException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return connection;
+        return httpUtils.getConnection(location);
     }
 
     private void closeConnection(HttpURLConnection connection)
     {
-        if (connection != null) {
-
-            connection.disconnect();
-        }
+        httpUtils.closeConnection(connection);
     }
 
     public InputStream getInputStream(HttpURLConnection connection)
     {
-        InputStream is = null;
-        try {
-            is =  connection.getInputStream();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return is;
+        return httpUtils.getInputStream(connection);
+    }
+
+
+
+    @NonNull
+    private BufferedReader getReader(InputStream is)
+    {
+        return httpUtils.getReader(is);
+    }
+
+    private void closeReader(BufferedReader reader)
+    {
+        httpUtils.closeReader(reader);
     }
 
 
     @Nullable
-    private String getResponseData(BufferedReader reader)
+    private String readData(BufferedReader reader)
     {
         String line;
         StringBuffer buffer = new StringBuffer();
@@ -122,21 +107,4 @@ public class FetchMovieData extends AsyncTask<String, Void, String>
         return jsonString;
     }
 
-    @NonNull
-    private BufferedReader getReader(InputStream is)
-    {
-        return new BufferedReader(new InputStreamReader(is));
-    }
-
-    private void closeReader(BufferedReader reader)
-    {
-        try {
-            if (reader != null) {
-                reader.close();
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
