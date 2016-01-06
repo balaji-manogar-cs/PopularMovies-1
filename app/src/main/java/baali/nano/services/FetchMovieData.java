@@ -1,7 +1,6 @@
 package baali.nano.services;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.io.BufferedReader;
@@ -51,37 +50,6 @@ public class FetchMovieData extends AsyncTask<String, Void, String>
         httpUtils.closeConnection(connection);
         httpUtils.closeReader(reader);
         return jsonString;
-    }
-
-
-    @NonNull
-    private HttpURLConnection getConnection(String location)
-    {
-        return httpUtils.getConnection(location);
-    }
-
-    private void closeConnection(HttpURLConnection connection)
-    {
-        httpUtils.closeConnection(connection);
-    }
-
-    public InputStream getInputStream(HttpURLConnection connection)
-    {
-
-        return httpUtils.getInputStream(connection);
-    }
-
-
-
-    @NonNull
-    private BufferedReader getReader(InputStream is)
-    {
-        return httpUtils.getReader(is);
-    }
-
-    private void closeReader(BufferedReader reader)
-    {
-        httpUtils.closeReader(reader);
     }
 
 
