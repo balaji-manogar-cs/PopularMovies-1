@@ -25,18 +25,18 @@ public class TheMovieDBUtils
         this.sortBy = getStringResource(R.string.sort_desc);
     }
 
+    // used to sort by ascending or descending using string resource value
     public void setSortBy(String sort)
     {
         this.sortBy = sort;
     }
 
-    public  String getMovieURL( MovieFetchOptions option)
+    // builds movie url based on fetch option
+    public  String buildURL( MovieFetchOptions option)
     {
-
         String baseURL = getStringResource(R.string.q_base_url);
         String paramApiKey = getStringResource(R.string.q_api_key);
         Uri movieApiUrl;
-
 
         if(option == MovieFetchOptions.Popular)
         {
@@ -46,12 +46,13 @@ public class TheMovieDBUtils
         {
             movieApiUrl = getRatedURL(baseURL, paramApiKey);
         }
-        return movieApiUrl.toString();
+
+        return (movieApiUrl != null) ? movieApiUrl.toString() : null;
     }
 
     private  String getStringResource(int resourceId)
     {
-        return resources.getString(R.string.q_base_url);
+        return resources.getString(resourceId);
     }
 
     private Uri getPopularURL(String baseURL, String paramApiKey)

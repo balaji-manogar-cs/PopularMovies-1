@@ -1,7 +1,8 @@
 package baali.nano.services;
 
 import android.os.AsyncTask;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,61 +10,133 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
-
-import baali.nano.BuildConfig;
 
 /**
  * Created by Balaji on 05/01/16.
  */
-public class FetchMovieData extends AsyncTask<Void, Void, String>
+public class FetchMovieData extends AsyncTask<String, Void, String>
 {
     private String TAG = FetchMovieData.class.getSimpleName();
 
     @Override
-    protected String doInBackground(Void... params)
+    protected String doInBackground(String... params)
     {
-        String location = "http://api.themoviedb.org/3/discover/movie?api_key="+ BuildConfig.THE_MOVIE_DB_API_KEY +"&sort_by=popularity.desc";
+        String location = params[0];
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+        String data = null;
+
+        data = getData(location, reader);
+
+
+        return data;
+    }
+
+    private String getData(String location, BufferedReader reader)
+    {
+        String jsonString = null;
         HttpURLConnection connection;
-        BufferedReader reader;
+        connection = getConnection(location);
+
+        InputStream is = getInputStream(connection);
+
+        if (is != null) {
+            reader = getReader(is);
+            String line;
+            jsonString = getResponseData(reader);
+
+        }
+
+        closeConnection(connection);
+        closeReader(reader);
+        return jsonString;
+    }
+
+
+    @NonNull
+    private HttpURLConnection getConnection(String location)
+    {
+        HttpURLConnection connection = null;
+        URL url = null;
         try {
-            URL url = new URL(location);
+            url = new URL(location);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
-
-            InputStream is = connection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-
-            if (is == null) {
-                return null;
-            }
-
-            reader = new BufferedReader(new InputStreamReader(is));
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
-            }
-
-            if (buffer.length() == 0) {
-                return null;
-            }
-
-            String jsonString = buffer.toString();
-
-            Log.d(TAG, "doInBackground: " + jsonString);
-
-
         }
         catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        catch (ProtocolException e) {
             e.printStackTrace();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+        return connection;
+    }
+
+    private void closeConnection(HttpURLConnection connection)
+    {
+        if (connection != null) {
+
+            connection.disconnect();
+        }
+    }
+
+    public InputStream getInputStream(HttpURLConnection connection)
+    {
+        InputStream is = null;
+        try {
+            is =  connection.getInputStream();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return is;
+    }
 
 
-        return null;
+    @Nullable
+    private String getResponseData(BufferedReader reader)
+    {
+        String line;
+        StringBuffer buffer = new StringBuffer();
+        try {
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line + "\n");
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (buffer.length() == 0) {
+            return null;
+        }
+
+        String jsonString = buffer.toString();
+        return jsonString;
+    }
+
+    @NonNull
+    private BufferedReader getReader(InputStream is)
+    {
+        return new BufferedReader(new InputStreamReader(is));
+    }
+
+    private void closeReader(BufferedReader reader)
+    {
+        try {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

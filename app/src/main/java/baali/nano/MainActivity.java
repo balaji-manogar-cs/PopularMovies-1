@@ -9,6 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import baali.nano.config.MovieFetchOptions;
 import baali.nano.services.FetchMovieData;
@@ -17,6 +20,8 @@ import baali.nano.utils.TheMovieDBUtils;
 
 public class MainActivity extends AppCompatActivity
 {
+    // this value is used to track onCreate state
+    private AtomicBoolean passedOnCreateState = new AtomicBoolean(false);
 
     private String TAG = MainActivity.class.getSimpleName();
 
@@ -51,7 +56,7 @@ public class MainActivity extends AppCompatActivity
 
         Log.d(TAG, "onCreate: " + BuildConfig.THE_MOVIE_DB_API_KEY);
 
-
+        passedOnCreateState.set(true);
     }
 
     @Override
@@ -82,7 +87,10 @@ public class MainActivity extends AppCompatActivity
     {
         TheMovieDBUtils movieUtil = new TheMovieDBUtils(getApplicationContext());
         FetchMovieData movieData = new FetchMovieData();
-        movieData.execute();
-        Log.d(TAG, "init: " +  movieUtil.getMovieURL(MovieFetchOptions.Popular));
+        String requestUrl = movieUtil.buildURL(MovieFetchOptions.Popular);
+        movieData.execute(requestUrl);
+        Log.d(TAG, "init: " + movieUtil.buildURL(MovieFetchOptions.Popular));
+        Toast.makeText(this, movieUtil.buildURL(MovieFetchOptions.Popular), Toast.LENGTH_LONG).show();
+
     }
 }
