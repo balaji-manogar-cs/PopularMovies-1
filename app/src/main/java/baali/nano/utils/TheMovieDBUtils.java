@@ -28,6 +28,7 @@ public class TheMovieDBUtils
     // used to sort by ascending or descending using string resource value
     public void setSortBy(String sort)
     {
+
         this.sortBy = sort;
     }
 

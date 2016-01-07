@@ -2,6 +2,11 @@ package baali.nano.services;
 
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,20 +27,35 @@ public class FetchMovieData extends AsyncTask<String, Void, String>
     protected String doInBackground(String... params)
     {
         String location = params[0];
-        HttpURLConnection connection = null;
-        BufferedReader reader = null;
         String data = null;
+        data = getData(location);
 
-        data = getData(location, reader);
+        JSONArray result = getMovieResultsInJsonArray(data);
 
 
         return data;
     }
 
-    private String getData(String location, BufferedReader reader)
+    private JSONArray getMovieResultsInJsonArray(String data)
+    {
+        JSONArray resultArray = null;
+        try {
+            JSONObject movieJson = new JSONObject(data);
+            resultArray = movieJson.getJSONArray("results");
+            Log.d(TAG, "getMovieResultsInJsonArray: " + resultArray.toString());
+            Log.d(TAG, "First Movie: " + resultArray.getJSONObject(0).toString());
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return resultArray;
+    }
+
+    private String getData(String location)
     {
         String jsonString = null;
         HttpURLConnection connection;
+        BufferedReader reader = null;
         connection = httpUtils.getConnection(location);
 
         InputStream is = httpUtils.getInputStream(connection);
