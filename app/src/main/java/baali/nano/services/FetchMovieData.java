@@ -5,51 +5,42 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.List;
 
+import baali.nano.model.Movie;
 import baali.nano.utils.HttpUtils;
+import baali.nano.utils.JsonUtils;
 
 /**
  * Created by Balaji on 05/01/16.
  */
-public class FetchMovieData extends AsyncTask<String, Void, String>
+public class FetchMovieData extends AsyncTask<String, Void, List<Movie>>
 {
     private final HttpUtils httpUtils = new HttpUtils();
+    private final JsonUtils jsonUtils = new JsonUtils();
     private String TAG = FetchMovieData.class.getSimpleName();
 
     @Override
-    protected String doInBackground(String... params)
+    protected List<Movie> doInBackground(String... params)
     {
         String location = params[0];
         String data = null;
         data = getData(location);
 
-        JSONArray result = getMovieResultsInJsonArray(data);
+        JSONArray result = jsonUtils.getMovieResultsInJsonArray(data);
+        List<Movie> movies = jsonUtils.parseJsonArrayToList(result);
+
+        Log.d(TAG, "Movies size: " + movies.size());
 
 
-        return data;
+        return movies;
     }
 
-    private JSONArray getMovieResultsInJsonArray(String data)
-    {
-        JSONArray resultArray = null;
-        try {
-            JSONObject movieJson = new JSONObject(data);
-            resultArray = movieJson.getJSONArray("results");
-            Log.d(TAG, "getMovieResultsInJsonArray: " + resultArray.toString());
-            Log.d(TAG, "First Movie: " + resultArray.getJSONObject(0).toString());
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return resultArray;
-    }
 
     private String getData(String location)
     {

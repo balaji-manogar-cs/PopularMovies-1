@@ -56,7 +56,7 @@ public class TheMovieDBUtils
         return resources.getString(resourceId);
     }
 
-    private Uri getPopularURL(String baseURL, String paramApiKey)
+    private Uri getRatedURL(String baseURL, String paramApiKey)
     {
         Uri movieApiUrl;
         String paramRated = getStringResource(R.string.q_param_sort_type);
@@ -68,7 +68,7 @@ public class TheMovieDBUtils
     }
 
 
-    private Uri getRatedURL(String baseURL, String paramApiKey)
+    private Uri getPopularURL(String baseURL, String paramApiKey)
     {
         Uri movieApiUrl;
         String paramPopular = getStringResource(R.string.q_param_sort_type);
