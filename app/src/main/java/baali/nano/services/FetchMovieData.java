@@ -1,7 +1,6 @@
 package baali.nano.services;
 
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -53,7 +52,6 @@ public class FetchMovieData extends AsyncTask<String, Void, List<Movie>>
 
         if (is != null) {
             reader = httpUtils.getReader(is);
-            String line;
             jsonString = readData(reader);
 
         }
@@ -64,7 +62,7 @@ public class FetchMovieData extends AsyncTask<String, Void, List<Movie>>
     }
 
 
-    @Nullable
+    
     private String readData(BufferedReader reader)
     {
         String line;
