@@ -11,5 +11,9 @@
     <string name="q_api_key">api_key</string>
     <string name="q_param_sort_type">sort_by</string>
 
+    <!-- Movie image-->
+    <string name="img_poster_url">http://image.tmdb.org/t/p/w185</string>
+    <string name="img_backdrop_url">http://image.tmdb.org/t/p/w342</string>
+
 
 </resources>

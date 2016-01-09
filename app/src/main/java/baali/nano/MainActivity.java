@@ -9,13 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import baali.nano.config.MovieFetchOptions;
-import baali.nano.services.FetchMovieData;
-import baali.nano.utils.TheMovieDBUtils;
 
 
 public class MainActivity extends AppCompatActivity
@@ -30,7 +26,6 @@ public class MainActivity extends AppCompatActivity
     {
 
         Log.d(TAG, "onStart: " + getApplicationContext().getResources().getString(R.string.q_api_key));
-        init();
         super.onStart();
     }
 
@@ -83,14 +78,12 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void init()
-    {
-        TheMovieDBUtils movieUtil = new TheMovieDBUtils(getApplicationContext());
-        FetchMovieData movieData = new FetchMovieData();
-        String requestUrl = movieUtil.buildURL(MovieFetchOptions.Popular);
-        movieData.execute(requestUrl);
-        Log.d(TAG, "init: " + movieUtil.buildURL(MovieFetchOptions.Popular));
-        Toast.makeText(this, movieUtil.buildURL(MovieFetchOptions.Popular), Toast.LENGTH_LONG).show();
 
+
+    public interface DelegateMovieAdapterProcess<T>
+    {
+        void process(List<? extends T> movieList);
     }
+
+
 }

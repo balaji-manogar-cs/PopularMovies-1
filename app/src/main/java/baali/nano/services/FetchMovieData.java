@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.List;
 
+import baali.nano.MainActivity;
 import baali.nano.model.Movie;
 import baali.nano.utils.HttpUtils;
 import baali.nano.utils.JsonUtils;
@@ -20,9 +21,32 @@ import baali.nano.utils.JsonUtils;
  */
 public class FetchMovieData extends AsyncTask<String, Void, List<Movie>>
 {
-    private final HttpUtils httpUtils = new HttpUtils();
-    private final JsonUtils jsonUtils = new JsonUtils();
+
+    private final HttpUtils httpUtils;
+    private final JsonUtils jsonUtils;
     private String TAG = FetchMovieData.class.getSimpleName();
+
+    private MainActivity.DelegateMovieAdapterProcess movieDelegate;
+
+
+
+    public FetchMovieData(){
+        httpUtils = new HttpUtils();
+        jsonUtils = new JsonUtils();
+    }
+
+    public FetchMovieData(MainActivity.DelegateMovieAdapterProcess delegate){
+        this.movieDelegate = delegate;
+        httpUtils = new HttpUtils();
+        jsonUtils = new JsonUtils();
+    }
+
+    public void setMovieDelegate(MainActivity.DelegateMovieAdapterProcess movieDelegate)
+    {
+        this.movieDelegate = movieDelegate;
+    }
+
+
 
     @Override
     protected List<Movie> doInBackground(String... params)
@@ -32,7 +56,7 @@ public class FetchMovieData extends AsyncTask<String, Void, List<Movie>>
         data = getData(location);
 
         JSONArray result = jsonUtils.getMovieResultsInJsonArray(data);
-        List<Movie> movies = jsonUtils.parseJsonArrayToList(result);
+        List<Movie> movies = jsonUtils.parseJsonArrayToList(result, params[1], params[2]);
 
         Log.d(TAG, "Movies size: " + movies.size());
 
@@ -40,6 +64,12 @@ public class FetchMovieData extends AsyncTask<String, Void, List<Movie>>
         return movies;
     }
 
+    @Override
+    protected void onPostExecute(List<Movie> movies)
+    {
+
+        movieDelegate.process(movies);
+    }
 
     private String getData(String location)
     {

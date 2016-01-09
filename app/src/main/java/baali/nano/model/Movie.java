@@ -8,6 +8,7 @@ import android.os.Parcelable;
  */
 public class Movie implements Parcelable
 {
+
     public static final Creator<Movie> CREATOR = new Creator<Movie>()
     {
         public Movie createFromParcel(Parcel source)

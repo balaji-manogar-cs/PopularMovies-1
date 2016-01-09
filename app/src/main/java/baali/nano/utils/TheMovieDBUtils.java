@@ -51,7 +51,7 @@ public class TheMovieDBUtils
         return (movieApiUrl != null) ? movieApiUrl.toString() : null;
     }
 
-    private  String getStringResource(int resourceId)
+    public  String getStringResource(int resourceId)
     {
         return resources.getString(resourceId);
     }
