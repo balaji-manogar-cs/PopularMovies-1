@@ -20,7 +20,7 @@ public class JsonUtils
 
     public List<Movie> parseJsonArrayToList(JSONArray result, String posterPath, String backdropPath)
     {
-        List<Movie> movies = new ArrayList<Movie>();
+        List<Movie> movies = new ArrayList<>();
         Movie movie;
         for (int i = 0; i < result.length(); i++) {
             movie = new Movie();

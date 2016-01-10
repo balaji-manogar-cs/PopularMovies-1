@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Popular Movies - 1</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Menu-->
+    <string name="action_popular">Sort by Popular</string>
+    <string name="action_rated">Sort by Rating</string>
+
+
     <!-- Fetch Movie Data -->
     <string name="q_base_url">http://api.themoviedb.org/3/discover/movie</string>
     <string name="q_popular">popularity</string>

@@ -24,7 +24,7 @@ public class FetchMovieData extends AsyncTask<String, Void, List<Movie>>
 
     private final HttpUtils httpUtils;
     private final JsonUtils jsonUtils;
-    private String TAG = FetchMovieData.class.getSimpleName();
+    private final String TAG = FetchMovieData.class.getSimpleName();
 
     private MainActivity.DelegateMovieAdapterProcess movieDelegate;
 

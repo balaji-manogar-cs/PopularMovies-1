@@ -28,10 +28,7 @@ public class HttpUtils
             connection.setRequestMethod("GET");
             connection.connect();
         }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        catch (ProtocolException e) {
+        catch (MalformedURLException | ProtocolException e ) {
             e.printStackTrace();
         }
         catch (IOException e) {
@@ -78,4 +75,5 @@ public class HttpUtils
             e.printStackTrace();
         }
     }
+
 }

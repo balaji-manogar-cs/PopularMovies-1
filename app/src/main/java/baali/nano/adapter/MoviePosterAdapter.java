@@ -21,15 +21,15 @@ import baali.nano.model.Movie;
  */
 public class MoviePosterAdapter extends ArrayAdapter<Movie>
 {
-    private String TAG = MoviePosterAdapter.class.getSimpleName();
+    private final String TAG = MoviePosterAdapter.class.getSimpleName();
 
-    private Context context;
+    private final Context context;
     private int layoutResourceId;
     private List<Movie> moviesList;
 
     public MoviePosterAdapter(Context context, int resource, List<Movie> moviesList)
     {
-        super(context, resource, moviesList);
+        super(context, R.layout.grid_main_poster, moviesList);
         this.context = context;
         this.layoutResourceId = resource;
         this.moviesList = moviesList;

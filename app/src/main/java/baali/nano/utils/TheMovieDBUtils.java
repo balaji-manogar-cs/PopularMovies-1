@@ -13,10 +13,9 @@ import baali.nano.config.MovieFetchOptions;
  */
 public class TheMovieDBUtils
 {
+    private final Resources resources;
     private  String sortBy;
     private Context context;
-
-    private Resources resources;
 
 
     public TheMovieDBUtils(Context context)
@@ -33,7 +32,7 @@ public class TheMovieDBUtils
     }
 
     // builds movie url based on fetch option
-    public  String buildURL( MovieFetchOptions option)
+    public  String buildURL(MovieFetchOptions option)
     {
         String baseURL = getStringResource(R.string.q_base_url);
         String paramApiKey = getStringResource(R.string.q_api_key);

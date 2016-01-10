@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -22,11 +26,11 @@ import baali.nano.utils.TheMovieDBUtils;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment  implements MainActivity.DelegateMovieAdapterProcess<Movie>
+public class MainActivityFragment extends Fragment  implements MainActivity.DelegateMovieAdapterProcess<Movie>, AdapterView.OnItemClickListener
 {
-    private String TAG = MainActivityFragment.class.getSimpleName();
+    private final String TAG = MainActivityFragment.class.getSimpleName();
+    private final List<Movie> moviesList;
     private ArrayAdapter movieAdapter;
-    private List<Movie> moviesList;
     private GridView gridMoviePoster;
 
     public MainActivityFragment()
@@ -43,23 +47,60 @@ public class MainActivityFragment extends Fragment  implements MainActivity.Dele
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        gridMoviePoster = (GridView) rootView.findViewById(R.id.grid_poster);
-        load();
-        return rootView;
-    }
 
-    private void load()
-    {
+        gridMoviePoster = (GridView) rootView.findViewById(R.id.grid_poster);
         movieAdapter = getPosterAdapter();
         gridMoviePoster.setAdapter(movieAdapter);
 
+        populateGridView(MovieFetchOptions.Popular);
 
+        gridMoviePoster.setOnItemClickListener(this);
+
+        return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int menuId = item.getItemId();
+        switch (menuId)
+        {
+            case R.id.action_popular:
+            {
+                populateGridView(MovieFetchOptions.Popular);
+                break;
+            }
+            case R.id.action_rating:
+            {
+                populateGridView(MovieFetchOptions.Rating);
+                break;
+            }
+
+        }
+        return true;
+    }
+
+    private void populateGridView(MovieFetchOptions option)
+    {
         TheMovieDBUtils movieUtil = new TheMovieDBUtils(getContext());
-        String requestUrl = movieUtil.buildURL(MovieFetchOptions.Popular);
+        String requestUrl = movieUtil.buildURL(option);
 
         String posterBasePath = movieUtil.getStringResource(R.string.img_poster_url);
         String backdropBasePath = movieUtil.getStringResource(R.string.img_backdrop_url);
@@ -69,12 +110,8 @@ public class MainActivityFragment extends Fragment  implements MainActivity.Dele
         movieData.setMovieDelegate(this);
         movieData.execute(requestUrl, posterBasePath, backdropBasePath);
 
-
-
-        //Log.d(TAG, "Movie: " + moviesList.get(0));
-
-        Log.d(TAG, "init: " + movieUtil.buildURL(MovieFetchOptions.Popular));
-        Toast.makeText(getActivity(), movieUtil.buildURL(MovieFetchOptions.Popular), Toast.LENGTH_LONG).show();
+        Log.d(TAG, "init: " + movieUtil.buildURL(option));
+        Toast.makeText(getActivity(), movieUtil.buildURL(option), Toast.LENGTH_LONG).show();
 
     }
 
@@ -99,4 +136,9 @@ public class MainActivityFragment extends Fragment  implements MainActivity.Dele
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+
+    }
 }
