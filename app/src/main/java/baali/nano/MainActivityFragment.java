@@ -1,5 +1,6 @@
 package baali.nano;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,7 +27,8 @@ import baali.nano.utils.TheMovieDBUtils;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment  implements MainActivity.DelegateMovieAdapterProcess<Movie>, AdapterView.OnItemClickListener
+public class MainActivityFragment extends Fragment  implements MainActivity.DelegateMovieAdapterProcess<Movie>
+        , AdapterView.OnItemClickListener
 {
     private final String TAG = MainActivityFragment.class.getSimpleName();
     private final List<Movie> moviesList;
@@ -139,6 +141,11 @@ public class MainActivityFragment extends Fragment  implements MainActivity.Dele
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
+//          Toast.makeText(getContext(), ((Movie)moviesList.get(position)).toString() , Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+        intent.putExtra("movie", moviesList.get(position));
+        startActivity(intent);
+
 
     }
 }

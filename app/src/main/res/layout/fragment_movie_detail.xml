@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="baali.nano.MovieDetailActivityFragment"
+                tools:showIn="@layout/activity_movie_detail">
+
+    <ImageView
+        android:id="@+id/movie_detail_poster_img"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:background="#ff0000"
+        android:scaleType="centerCrop"
+        android:src="@drawable/backdrop"
+
+        />
+
+    <TextView
+        android:id="@+id/movie_detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/movie_detail_poster_img"
+        android:layout_alignLeft="@id/movie_detail_poster_img"
+        android:background="#34000000"
+        android:gravity="bottom"
+        android:paddingBottom="6dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="6dp"
+        android:text="Title of the movie"
+        android:textColor="#ffffff"
+        android:textSize="20sp"/>
+
+
+
+    <TextView
+        android:id="@+id/movie_detail_release"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/movie_detail_title"
+        android:text="Release Date"/>
+
+    <TextView
+        android:id="@+id/movie_detail_vote_average"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/movie_detail_release"
+        android:text="Vote average"
+        />
+
+    <TextView
+        android:id="@+id/movie_detail_synopsis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movie_detail_vote_average"
+        android:text="movie synopsis come here..."
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+
+</RelativeLayout>
