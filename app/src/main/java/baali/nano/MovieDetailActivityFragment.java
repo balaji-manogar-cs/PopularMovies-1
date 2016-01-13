@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -25,7 +26,7 @@ public class MovieDetailActivityFragment extends Fragment
     private ImageView poster;
     private TextView title;
     private TextView releaseDate;
-    private TextView voteAverage;
+    private RatingBar voteAverage;
     private TextView synopsis;
 
     public MovieDetailActivityFragment()
@@ -44,7 +45,7 @@ public class MovieDetailActivityFragment extends Fragment
 
         movie = getMovie();
 
-        initializeViews(fragmentLayout);
+        initializeViews(fragmentLayout.findViewById(R.id.movie_scroll).findViewById(R.id.movie_container));
         putMovieDataIntoViews();
         Log.d(TAG, "onCreateView: " + movie.getBackdropPath());
 //        Toast.makeText(getContext(), ((Movie)getActivity().getIntent().getParcelableExtra("movie")).toString(), Toast.LENGTH_LONG).show();
@@ -66,7 +67,7 @@ public class MovieDetailActivityFragment extends Fragment
         poster = (ImageView)getViewById(R.id.movie_detail_poster_img, layout);
         title = (TextView) getViewById(R.id.movie_detail_title, layout);
         releaseDate = (TextView) getViewById(R.id.movie_detail_release, layout);
-        voteAverage = (TextView) getViewById(R.id.movie_detail_vote_average, layout);
+        voteAverage = (RatingBar) getViewById(R.id.movie_detail_vote_average, layout);
         synopsis = (TextView) getViewById(R.id.movie_detail_synopsis, layout);
     }
 
@@ -77,8 +78,8 @@ public class MovieDetailActivityFragment extends Fragment
         // download image and map to view
         Picasso.with(getContext()).load(movie.getBackdropPath()).into(poster);
         title.setText(movie.getTitle());
-        releaseDate.setText("Release Date: " + movie.getReleaseDate());
-        voteAverage.setText(String.valueOf(movie.getVoteAverage()));
+        releaseDate.setText(movie.getReleaseDate());
+        voteAverage.setRating(Float.valueOf(movie.getVoteAverage())/2f);
         synopsis.setText(movie.getOverview());
     }
 

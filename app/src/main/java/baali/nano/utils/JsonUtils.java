@@ -37,7 +37,7 @@ public class JsonUtils
                 movie.setPopularity(currentMovieDetail.getDouble("popularity"));
                 movie.setVoteCount(currentMovieDetail.getInt("vote_count"));
                 movie.setVideo(currentMovieDetail.getBoolean("video"));
-                movie.setVoteAverage(currentMovieDetail.getDouble("vote_average"));
+                movie.setVoteAverage(currentMovieDetail.getString("vote_average"));
                 movies.add(movie);
             }
             catch (JSONException e) {

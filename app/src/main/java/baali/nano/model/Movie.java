@@ -32,7 +32,7 @@ public class Movie implements Parcelable
     private double popularity;
     private int voteCount;
     private boolean video;
-    private double voteAverage;
+    private String voteAverage;
 
     public Movie()
     {
@@ -51,7 +51,7 @@ public class Movie implements Parcelable
         this.popularity = in.readDouble();
         this.voteCount = in.readInt();
         this.video = in.readByte() != 0;
-        this.voteAverage = in.readDouble();
+        this.voteAverage = in.readString();
     }
 
     public int getVoteCount()
@@ -164,12 +164,12 @@ public class Movie implements Parcelable
         this.video = video;
     }
 
-    public double getVoteAverage()
+    public String getVoteAverage()
     {
         return voteAverage;
     }
 
-    public void setVoteAverage(double voteAverage)
+    public void setVoteAverage(String voteAverage)
     {
         this.voteAverage = voteAverage;
     }
@@ -213,6 +213,6 @@ public class Movie implements Parcelable
         out.writeDouble(this.popularity);
         out.writeInt(this.voteCount);
         out.writeByte(video ? (byte) 1 : (byte) 0);
-        out.writeDouble(this.voteAverage);
+        out.writeString(this.voteAverage);
     }
 }
