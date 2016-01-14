@@ -2,6 +2,7 @@ package baali.nano;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ public class MainActivityFragment extends Fragment  implements MainActivity.Dele
         , AdapterView.OnItemClickListener
 {
     private final String TAG = MainActivityFragment.class.getSimpleName();
-    private final List<Movie> moviesList;
+    private  List<Movie> moviesList;
     private ArrayAdapter movieAdapter;
     private GridView gridMoviePoster;
 
@@ -61,15 +62,33 @@ public class MainActivityFragment extends Fragment  implements MainActivity.Dele
     {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        bridgeGridViewWithAdapter(rootView);
+
+        checkBundleAndProcess(savedInstanceState);
+
+        gridMoviePoster.setOnItemClickListener(this);
+        return rootView;
+    }
+
+    private void bridgeGridViewWithAdapter(View rootView)
+    {
         gridMoviePoster = (GridView) rootView.findViewById(R.id.grid_poster);
         movieAdapter = getPosterAdapter();
         gridMoviePoster.setAdapter(movieAdapter);
+    }
 
-        populateGridView(MovieFetchOptions.Popular);
+    private void checkBundleAndProcess(Bundle savedInstanceState)
+    {
+        if(savedInstanceState != null)
+        {
+            Log.d(TAG, "Bundled: " + savedInstanceState.getParcelableArrayList("MovieList"));
+            moviesList = savedInstanceState.getParcelableArrayList("MovieList");
+            process(moviesList);
+        }
+        else {
 
-        gridMoviePoster.setOnItemClickListener(this);
-
-        return rootView;
+            populateGridView(MovieFetchOptions.Popular);
+        }
     }
 
     @Override
@@ -97,6 +116,14 @@ public class MainActivityFragment extends Fragment  implements MainActivity.Dele
 
         }
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+
+        outState.putParcelableArrayList("MovieList", (ArrayList<? extends Parcelable>) moviesList);
+        super.onSaveInstanceState(outState);
     }
 
     private void populateGridView(MovieFetchOptions option)
@@ -130,6 +157,7 @@ public class MainActivityFragment extends Fragment  implements MainActivity.Dele
         {
             movieAdapter.clear();
             movieAdapter.addAll(movieList);
+
         }
         else
         {
