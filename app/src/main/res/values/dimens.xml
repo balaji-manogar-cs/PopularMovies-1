@@ -5,4 +5,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="main_poster">150dp</dimen>
     <dimen name="posterCellSpacing">2dp</dimen>
+    <dimen name="detailTitle">20sp</dimen>
+    <dimen name="detailStaticText">10sp</dimen>
+    <dimen name="detailStaticPadding">6dp</dimen>
+
 </resources>

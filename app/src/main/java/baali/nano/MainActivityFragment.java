@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,7 +139,7 @@ public class MainActivityFragment extends Fragment  implements MainActivity.Dele
         movieData.execute(requestUrl, posterBasePath, backdropBasePath);
 
         Log.d(TAG, "init: " + movieUtil.buildURL(option));
-        Toast.makeText(getActivity(), movieUtil.buildURL(option), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(), movieUtil.buildURL(option), Toast.LENGTH_LONG).show();
 
     }
 

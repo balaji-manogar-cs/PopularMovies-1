@@ -17,56 +17,25 @@
 
             <ImageView
                 android:id="@+id/movie_detail_poster_img"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:adjustViewBounds="true"
-                android:background="#ff0000"
-                android:scaleType="centerCrop"
-                android:src="@drawable/backdrop"
-
-                />
+                style="@style/ActImageStyle"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:src="@drawable/backdrop"/>
 
             <TextView
                 android:id="@+id/movie_detail_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/movie_detail_poster_img"
-                android:layout_alignLeft="@id/movie_detail_poster_img"
-                android:background="#34000000"
-                android:gravity="bottom"
-                android:paddingBottom="6dp"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="6dp"
-                android:text="Title of the movie"
-                android:textColor="#ffffff"
-                android:textSize="20sp"/>
+                style="@style/ActTitle"
+                android:text="Title of the movie"/>
 
 
             <TextView
                 android:id="@+id/movie_detail_release_static"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/movie_detail_poster_img"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="6dp"
-                android:text="Release Date:"
-                android:textColor="#90a4ae"
-                android:textSize="10sp"
-                />
+                style="@style/ActRelease"
+                android:text="Release Date:"/>
 
             <TextView
                 android:id="@+id/movie_detail_release"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/movie_detail_poster_img"
-                android:layout_toRightOf="@id/movie_detail_release_static"
-                android:paddingBottom="@dimen/activity_horizontal_margin"
-                android:text="date"
-                android:textColor="#424242"
-                android:textSize="10sp"/>
+                style="@style/ActRating"
+                android:text="date"/>
 
 
             <RatingBar
@@ -80,7 +49,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="-2dp"
                 android:isIndicator="true"
-                android:paddingBottom="@dimen/activity_horizontal_margin"/>
+                />
 
             <!--<TextView-->
             <!--android:id="@+id/movie_detail_vote_average"-->
@@ -97,28 +66,13 @@
 
             <TextView
                 android:id="@+id/movie_detail_rating_static"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/movie_detail_poster_img"
-                android:layout_toLeftOf="@id/movie_detail_vote_average"
-                android:paddingBottom="@dimen/activity_horizontal_margin"
-                android:paddingRight="6dp"
-                android:text="Rating:"
-                android:textColor="#90a4ae"
-                android:textSize="10dp"
-                />
+                style="@style/ActRatingStar"
+                android:text="Rating:"/>
 
             <TextView
                 android:id="@+id/movie_detail_synopsis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/movie_detail_vote_average"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:text="movie synopsis come here..."
-                android:textColor="#424242"
-                android:typeface="sans"/>
+                style="@style/actSynposis"
+                android:text="movie synopsis come here..."/>
         </RelativeLayout>
     </ScrollView>
 
